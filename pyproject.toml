@@ -1,0 +1,13 @@
+[project]
+name = "podcast"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "dearpygui>=2.3.1",
+    "manim>=0.20.1",
+]
+
+[tool.black]
+target-version = ['py314']
