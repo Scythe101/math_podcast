@@ -596,7 +596,7 @@ class question_BC(ThreeDScene):
 
 class question_AB(Scene):
     def construct(self):
-        self.next_section(skip_animations=True)
+        # self.next_section(skip_animations=True)
         x_pi_dict = {
             -2 * PI: r"$-2\pi$",
             # -PI: r"$\hspace{1cm}$",
@@ -923,10 +923,9 @@ class question_AB(Scene):
         self.play(FadeOut(part_a_fade), FadeOut(question_AB_info))
 
         # Part A: Cos graph verification
-        self.next_section(skip_animations=False)
 
         verify_f_integral = Tex(
-            r"$$\text{Verify } \int_{-2\pi}^{4\pi} f(x)dx$$", font_size=40
+            r"$$\text{Verify } \int_{-2\pi}^{4\pi} \cos\left(\frac{x}{2}\right)dx$$", font_size=40
         ).to_corner(UL)
 
         x_pi_dict_2 = {
@@ -1005,7 +1004,7 @@ class question_AB(Scene):
             .move_to(cos_area_4.get_center())
             .shift(RIGHT * 0.3)
         )
-        self.next_section(skip_animations=True)
+        # self.next_section(skip_animations=True)
 
         cos_area_group = VGroup(cos_area_1, cos_area_2, cos_area_3, cos_area_4)
         cos_label_group = VGroup(
@@ -1017,7 +1016,7 @@ class question_AB(Scene):
         cos_group_4 = VGroup(cos_area_4, label_cos_area_4)
 
         self.play(Create(cos_area_group))
-        self.play(Write(cos_label_group))
+        self.play(Write(cos_label_group), FadeOut(verify_f_integral))
         self.play(
             LaggedStart(
                 cos_group_2.animate.shift(LEFT + UP * 2.75),
@@ -1057,7 +1056,224 @@ class question_AB(Scene):
         cos_area_eq = Tex(r"$\therefore A=0$").to_edge(UP).shift(LEFT)
         self.play(Write(cos_area_eq))
 
-        self.wait(2)
+        self.wait()
+        self.play(FadeOut(line_2pi, line_4pi, graph_cos, axes2, cos_area_eq))
+        self.wait()
+
+        # Part B
+
+        part_b = Tex(
+            r"\begin{minipage}{8cm}(b) Find all x-values in the open interval $(-2\pi,4\pi)$  for which $f$ has a critical point.\end{minipage}",
+            font_size=36,
+        ).to_corner(UL)
+        self.play(LaggedStart(Write(part_b), FadeIn(question_AB_info)))
+
+        part_b_0 = (
+            MarkupText(
+                f"Critical points are when the derivative is <u>undefined</u> <i>or</i> <u>0</u>.",
+                font_size=24,
+                color=TEAL,
+            )
+            .to_corner(UL)
+            .shift(DOWN)
+        )
+        self.play(Write(part_b_0))
+
+        part_b_1 = (
+            MathTex(
+                r"f(x)&=g(x)-\cos\left(\frac{x}{2}\right) \\",
+                r"f'(x)&=g'(x)+\frac{1}{2}\sin\left(\frac{x}{2}\right) \\",
+                r"f'(x)&=\begin{cases} 1 + \frac{1}{2}\sin\left(\frac{x}{2}\right) & -2\pi < x < 0 \\ -\frac{1}{2} + \frac{1}{2}\sin\left(\frac{x}{2}\right) & 0 < x < 4\pi \end{cases}",
+                font_size=30,
+                color=TEAL,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 1.5)
+        )
+        self.play(Write(part_b_1[0]))
+        self.play(Write(part_b_1[1]))
+        part_b_2 = (
+            Tex(r"$\underline{\text{Slopes of } g:}$", font_size=30)
+            .next_to(question_AB_info, DOWN)
+            .shift(LEFT * 1.5)
+        )
+        self.play(Write(part_b_2))
+        part_b_3 = (
+            Tex(
+                r"$\underline{-2\pi < x < 0: } \text{  }m=\frac{2\pi-0}{0-(-2\pi)}=1$",
+                font_size=30,
+            )
+            .next_to(part_b_2, DOWN)
+            .shift(RIGHT * 1.3)
+        )
+        self.play(Write(part_b_3))
+
+        part_b_4 = (
+            Tex(
+                r"$\underline{0 < x < 4\pi: } \text{  }m=\frac{0-2\pi}{4\pi-0}=-\frac{1}{2}$",
+                font_size=30,
+            )
+            .next_to(part_b_3, DOWN)
+            .shift(LEFT * 0.2)
+        )
+        self.play(Write(part_b_4))
+        self.wait()
+
+        g_prime = MathTex(
+            r"g'(x) = \begin{cases} 1 & -2\pi < x < 0 \\ -\frac{1}{2} & 0 < x < 4\pi \end{cases}",
+            font_size=30,
+            color=TEAL,
+        ).next_to(part_b_4, DOWN)
+        self.play(Write(g_prime))
+
+        self.wait()
+        self.play(Write(part_b_1[2]))
+
+        self.wait()
+        self.play(
+            FadeOut(part_b_1[0]),
+            part_b_1[2].animate.shift(UP * 1.5),
+            FadeOut(part_b_1[1]),
+            FadeOut(part_b_2),
+            FadeOut(part_b_3),
+            FadeOut(part_b_4),
+            FadeOut(g_prime),
+        )
+
+        part_b_5 = (
+            Tex(r"\underline{Case 1: $f'$ is undefined}", font_size=30)
+            .to_corner(UL)
+            .shift(DOWN * 3)
+        )
+        self.play(Write(part_b_5))
+        part_b_6 = (
+            Tex(
+                r"$g'$ is undefined at $x=0$ because $g$ has a cusp at that point.",
+                color=TEAL,
+                font_size=30,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 3.5)
+        )
+        self.play(Write(part_b_6))
+        part_b_7 = (
+            Tex(
+                r"$\therefore$ $f'$ is also undefined at $x=0$, so $f$ has a critical point at $x=0$.",
+                color=TEAL,
+                font_size=30,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 4)
+        )
+        self.play(Write(part_b_7))
+        self.wait()
+
+        part_b_8 = (
+            Tex(r"\underline{Alternatively}:", color=TEAL, font_size=30)
+            .to_corner(UL)
+            .shift(DOWN * 4.5)
+        )
+        self.play(Write(part_b_8))
+        self.wait()
+
+        part_b_9 = (
+            MathTex(
+                r"\lim_{x\to 0^-} f'(x) = \lim_{x\to 0^-} g'(x)+\frac{1}{2}\sin\left(\frac{x}{2}\right)",
+                r"=\lim_{x\to 0^-} 1 + \frac{1}{2}\sin\left(\frac{x}{2}\right) = 1",
+                color=TEAL,
+                font_size=24,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 4.9)
+        )
+        self.play(Write(part_b_9[0]))
+        self.wait(0.5)
+        self.play(Write(part_b_9[1]))
+
+        part_b_10 = (
+            MathTex(
+                r"\lim_{x\to 0^+} f'(x) = \lim_{x\to 0^+} g'(x)+\frac{1}{2}\sin\left(\frac{x}{2}\right)",
+                r"=\lim_{x\to 0^+} -\frac{1}{2} + \frac{1}{2}\sin\left(\frac{x}{2}\right) = -\frac{1}{2}",
+                color=TEAL,
+                font_size=24,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 5.5)
+        )
+        self.play(Write(part_b_10[0]))
+        self.wait(0.5)
+        self.play(Write(part_b_10[1]))
+        self.wait()
+        part_b_11 = (
+            MathTex(
+                r"&\text{Since }f \text{ is continuous at } x=0 \text{ and} \lim_{x\to 0^-}f'(x) \neq \lim_{x\to 0^+}f'(x) \text{, } f'(0) \text{ is undefined so } f \\ &\text{ has a critical point there.}",
+                font_size=30,
+                color=TEAL,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 6.3)
+        )
+        self.play(Write(part_b_11))
+
+        self.play(
+            FadeOut(part_b_5),
+            FadeOut(part_b_6),
+            FadeOut(part_b_7),
+            FadeOut(part_b_8),
+            FadeOut(part_b_9),
+            FadeOut(part_b_10),
+            FadeOut(part_b_11),
+        )
+        self.next_section(skip_animations=False)
+
+        part_b_12 = (
+            Tex(r"\underline{Case 2: $f'$ is equal to 0}", font_size=30)
+            .to_corner(UL)
+            .shift(DOWN * 2.5)
+        )
+        self.play(Write(part_b_12))
+
+        part_b_13 = Tex(r"Check \underline{both} parts of the piecewise function!",font_size=30).to_corner(UL).shift(DOWN*3)
+        self.play(Write(part_b_13))
+        part_b_14=Tex(r"$-2\pi<x<0:$",font_size=30, color=TEAL).to_corner(UL).shift(DOWN*3.5)
+        self.play(Write(part_b_14))
+        part_b_15=MathTex(r"&f'(x)=1+\frac{1}{2} \sin\left(\frac{x}{2}\right)\text{, which is never equal} \\ & \text{to zero}.",font_size=30, color=TEAL).to_corner(UL).shift(DOWN*4)
+        self.play(Write(part_b_15))
+        self.wait()
+
+        part_b_16=Tex(r"$0<x<4\pi:$",font_size=30, color=TEAL).to_corner(UL).shift(DOWN*3.2+RIGHT*7)
+        self.play(Write(part_b_16))
+        part_b_17=MathTex(r"f'(x)=-\frac{1}{2}+\frac{1}{2} \sin\left(\frac{x}{2}\right)&=0 \\",
+            r"\sin\left(\frac{x}{2}\right)&=1 \\", 
+            r"\frac{x}{2} = \frac{\pi}{2} + 2\pi n, n\in \mathbb{Z} \\",
+            r"x = \pi + 4\pi n, n\in \mathbb{Z} \\",
+            color=TEAL,
+        font_size=30).to_corner(UL).shift(DOWN*3.6+RIGHT*7)
+        self.play(Write(part_b_17[0]))
+        self.play(Write(part_b_17[1]))
+        self.play(Write(part_b_17[2]))
+        self.play(Write(part_b_17[3]))
+        part_b_18=Tex(r"$\text{The only solution in the given interval is } x=\pi.$",color=TEAL,font_size=30).next_to(part_b_17,DOWN).shift(LEFT*2)
+        self.play(Write(part_b_18))
+        self.wait(1.5)
+
+        self.play(
+            FadeOut(part_b_12),
+            FadeOut(part_b_13),
+            FadeOut(part_b_14),
+            FadeOut(part_b_15),
+            FadeOut(part_b_16),
+            FadeOut(part_b_17),
+            FadeOut(part_b_18)
+        )
+
+        part_b_18=Tex(r"\begin{minipage}{8cm}$f$ has a critical point at $x=0$ because $f'$ is undefined at that point and another critical point at $x=\pi$ because $f'$ is $0$.\end{minipage}",color=TEAL,font_size=30).to_corner(UL).shift(DOWN*2.8)
+        self.play(Write(part_b_18))
+        part_b_final_box=SurroundingRectangle(part_b_18, color=WHITE, buff=0.2)
+        self.play(Create(part_b_final_box))
+
+        self.wait()
+            
 
 
 if __name__ == "__main__":
