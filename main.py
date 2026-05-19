@@ -628,7 +628,7 @@ class question_AB(Scene):
         ).to_corner(UL)
         function_f = (
             Tex(
-                r"$f(x)=g(x)-\cos(\frac{x}{2})$",
+                r"$f(x)=g(x)-\cos\left(\frac{x}{2}\right)$",
                 font_size=36,
             )
             .move_to(question_AB, DOWN)
@@ -661,6 +661,7 @@ class question_AB(Scene):
         self.play(Create(graph2), Write(graph_g_label))
 
         graph_group1 = VGroup(graph1, graph2, axes)
+        question_AB_info = VGroup(graph1, graph2, axes, function_f, graph_g_label)
 
         self.play(
             FadeOut(question_AB),
@@ -680,14 +681,14 @@ class question_AB(Scene):
         self.play(Write(part_a))
 
         part_a_0 = Tex(
-            r"$$\int_{-2\pi}^{4\pi} f(x)dx =\int_{-2\pi}^{4\pi} g(x) - \cos(\frac{x}{2})dx$$",
+            r"$$\int_{-2\pi}^{4\pi} f(x)dx =\int_{-2\pi}^{4\pi} g(x) - \cos\left(\frac{x}{2}\right)dx$$",
             font_size=30,
             color="TEAL",
         ).next_to(part_a, DOWN)
         self.play(Write(part_a_0))
         self.wait()
 
-        #
+        # Part A
 
         part_a_1 = (
             Tex(
@@ -705,7 +706,7 @@ class question_AB(Scene):
             color="TEAL",
         ).next_to(part_a_1, RIGHT)
         part_a_3 = Tex(
-            r"$$- \int_{-2\pi}^{4\pi} \cos(\frac{x}{2}) dx$$",
+            r"$$- \int_{-2\pi}^{4\pi} \cos\left(\frac{x}{2}\right) dx$$",
             font_size=30,
             color="TEAL",
         ).next_to(part_a_2, RIGHT)
@@ -747,6 +748,28 @@ class question_AB(Scene):
 
         self.wait()
 
+        # TODO add animations of where the base and height values come from, using the graph
+        g_graph_height = axes.get_vertical_line(
+            axes.c2p(0, 2 * PI, 0), color=RED, line_func=Line
+        )
+        g_graph_height.set_stroke(width=8)
+
+        g_graph_base = axes.plot(lambda x: 0, color="RED", x_range=[-2 * PI, 4 * PI])
+        g_graph_base.set_stroke(width=8)
+
+        self.play(Create(g_graph_height), Create(g_graph_base))
+
+        g_graph_base_label = MathTex(
+            r"\mathbf{b=6\pi}", font_size=30, color=RED
+        ).next_to(g_graph_base, DOWN)
+        g_graph_height_label = (
+            MathTex(r"\mathbf{h=2\pi}", font_size=30, color=RED)
+            .next_to(g_graph_height, UP)
+            .shift(RIGHT * 0.6 + DOWN * 0.2)
+        )
+
+        self.play(Write(g_graph_height_label), Write(g_graph_base_label))
+
         part_a_6 = Tex(
             r"$$A=\frac{1}{2}\cdot 2\pi \cdot 6\pi$$", font_size=30, color=TEAL
         ).next_to(part_a_5, DOWN, buff=0.5)
@@ -766,13 +789,18 @@ class question_AB(Scene):
             FadeOut(part_a_4),
             FadeOut(part_a_5),
             FadeOut(part_a_6),
+            FadeOut(g_area),
+            FadeOut(g_graph_base),
+            FadeOut(g_graph_height),
+            FadeOut(g_graph_height_label),
+            FadeOut(g_graph_base_label),
             part_a_7.animate.next_to(part_a_2).shift(LEFT * 0.1),
         )
 
-        self.next_section(skip_animations=False)
         part_a_8 = (
-            Tex(
-                r"$$\int_{-2\pi}^{4\pi} g(x)dx - \int_{-2\pi}^{4\pi} \cos\left(\frac{x}{2}\right)dx=6\pi^2- $$",
+            MathTex(
+                r"\int_{-2\pi}^{4\pi} g(x)dx - \int_{-2\pi}^{4\pi} \cos\left(\frac{x}{2}\right)dx &= 6\pi^2- \\",
+                r"&= 6\pi ^2",
                 font_size=30,
                 color=TEAL,
             )
@@ -786,19 +814,22 @@ class question_AB(Scene):
                 color=TEAL,
             )
             .next_to(part_a_8, RIGHT)
-            .shift(LEFT * 0.3)
+            .shift(UP * 0.2 + LEFT * 0.2)
         )
 
         part_a_10 = part_a_9.copy()
 
-        self.play(LaggedStart(Write(part_a_8), Write(part_a_9), lag_ratio=0.8))
+        self.play(LaggedStart(Write(part_a_8[0]), Write(part_a_9), lag_ratio=0.8))
 
-        self.play(part_a_10.animate.shift(DOWN + RIGHT * 2).scale(0.8))
+        self.play(
+            part_a_10.animate.shift(DOWN + RIGHT * 2).scale(0.8).set_color(ORANGE)
+        )
         part_a_11 = Tex(
             r"$$ \implies \int_{-2\pi}^{4\pi} \pm \sqrt{\frac{1+\cos x}{2}} dx$$",
             font_size=24,
-            color=TEAL,
+            color=ORANGE,
         ).next_to(part_a_10, RIGHT)
+        self.wait()
         self.play(Write(part_a_11))
         part_a_11_cross = Cross(part_a_11, stroke_color=RED)
         self.play(Create(part_a_11_cross))
@@ -810,7 +841,7 @@ class question_AB(Scene):
                 r"du &= \frac{1}{2} dx \\",
                 r"dx &= 2du",
                 font_size=24,
-                color=TEAL,
+                color=ORANGE,
             )
             .next_to(part_a_10, RIGHT)
             .shift(RIGHT)
@@ -825,29 +856,80 @@ class question_AB(Scene):
         part_a_13 = MobjectTable(
             [
                 [
-                    Tex(r"$4\pi$", font_size=24, color=TEAL),
-                    Tex(r"$2\pi$", font_size=24, color=TEAL),
+                    Tex(r"$4\pi$", font_size=24, color=ORANGE),
+                    Tex(r"$2\pi$", font_size=24, color=ORANGE),
                 ],
                 [
-                    Tex(r"$-2\pi$", font_size=24, color=TEAL),
-                    Tex(r"$-\pi$", font_size=24, color=TEAL),
+                    Tex(r"$-2\pi$", font_size=24, color=ORANGE),
+                    Tex(r"$-\pi$", font_size=24, color=ORANGE),
                 ],
             ],
             col_labels=[
-                Tex("$x$", font_size=24, color=TEAL),
-                Tex("$u$", font_size=24, color=TEAL),
-            ],h_buff=0.4,  # Shrinks the horizontal size of each box
-            v_buff=0.3
-        ).next_to(part_a_12,DOWN)
-        part_a_13.get_horizontal_lines().set_color(TEAL).set_stroke(width=1.5)
-        part_a_13.get_vertical_lines().set_color(TEAL).set_stroke(width=1.5)
+                Tex("$x$", font_size=24, color=ORANGE),
+                Tex("$u$", font_size=24, color=ORANGE),
+            ],
+            h_buff=0.4,  # Shrinks the horizontal size of each box
+            v_buff=0.3,
+        ).next_to(part_a_12, DOWN)
+        part_a_13.get_horizontal_lines().set_color(ORANGE).set_stroke(width=1.5)
+        part_a_13.get_vertical_lines().set_color(ORANGE).set_stroke(width=1.5)
         self.play(Create(part_a_13))
         self.wait()
 
+        part_a_14 = MathTex(
+            r" &=2\int_{-\pi}^{2\pi} \cos(u) du  \\",
+            r" &= 2[\sin(u)]_{-\pi}^{2\pi} \\",
+            r" &= 2\sin(2\pi)-2\sin(-\pi) \\",
+            r" &=0",
+            font_size=24,
+            color=ORANGE,
+        ).next_to(part_a_10, DOWN)
+        self.play(Write(part_a_14[0]))
+        self.wait()
+        self.play(Write(part_a_14[1]))
+        self.wait()
+        self.play(Write(part_a_14[2]))
+        self.wait()
+        self.play(Write(part_a_14[3]))
+        self.wait()
 
-class Testing(Scene):
-    def construct(self):
-        x_pi_dict = {
+        part_a_15 = (
+            Tex("$0$", color=ORANGE, font_size=30)
+            .next_to(part_a_8, RIGHT)
+            .shift(UP * 0.2 + LEFT * 0.1)
+        )
+        self.play(Transform(part_a_9, part_a_15))
+        self.wait()
+        self.play(Write(part_a_8[1]))
+        part_a_final_box = SurroundingRectangle(part_a_8[1], color=WHITE, buff=0.2)
+        self.play(Create(part_a_final_box))
+        self.wait()
+
+        part_a_fade = VGroup(
+            part_a,
+            part_a_2,
+            part_a_7,
+            part_a_8,
+            part_a_9,
+            part_a_10,
+            # part_a_11 is already faded out
+            part_a_12,
+            part_a_13,
+            part_a_14,
+            part_a_15,
+            part_a_final_box,
+        )
+
+        self.play(FadeOut(part_a_fade), FadeOut(question_AB_info))
+
+        # Part A: Cos graph verification
+        self.next_section(skip_animations=False)
+
+        verify_f_integral = Tex(
+            r"$$\text{Verify } \int_{-2\pi}^{4\pi} f(x)dx$$", font_size=40
+        ).to_corner(UL)
+
+        x_pi_dict_2 = {
             -2 * PI: r"$-2\pi$",
             # -PI: r"$\hspace{1cm}$",
             # PI: r"$\hspace{1cm}$",
@@ -855,7 +937,7 @@ class Testing(Scene):
             # 3 * PI: r"$\hspace{1cm}$",
             4 * PI: r"$4\pi$",
         }
-        y_dict = {-1: r"$-1$", 1: r"$1$"}
+        y_dict_2 = {-1: r"$-1$", 1: r"$1$"}
 
         axes2 = Axes(
             x_range=[-2 * PI - 3 * PI / 4, 4 * PI + PI * 3 / 4, PI],
@@ -864,7 +946,7 @@ class Testing(Scene):
             y_length=7,
         )
 
-        axes2.add_coordinates(x_pi_dict, y_dict)
+        axes2.add_coordinates(x_pi_dict_2, y_dict_2)
         axes2.shift(DOWN * 0.7).scale(0.7)
 
         graph_cos = axes2.plot(
@@ -873,7 +955,7 @@ class Testing(Scene):
             x_range=[-2 * PI - 3 * PI / 4, 4 * PI + PI * 3 / 4],
         )
 
-        self.play(Write(axes2))
+        self.play(Write(axes2), Write(verify_f_integral))
         self.play(Create(graph_cos))
 
         line_2pi = always_redraw(
@@ -923,6 +1005,7 @@ class Testing(Scene):
             .move_to(cos_area_4.get_center())
             .shift(RIGHT * 0.3)
         )
+        self.next_section(skip_animations=True)
 
         cos_area_group = VGroup(cos_area_1, cos_area_2, cos_area_3, cos_area_4)
         cos_label_group = VGroup(
