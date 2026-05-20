@@ -130,7 +130,7 @@ class question_BC(ThreeDScene):
         self.play(Write(part_a_1))
         self.wait()
 
-        part_a_2 = Tex(r"$$=\left[\ln|x+2|\right]_0^k$$", font_size=36, color=PURPLE_A)
+        part_a_2 = Tex(r"$$=\left[\ln(x+2)\right]_0^k$$", font_size=36, color=PURPLE_A)
         part_a_2.next_to(part_a_1, DOWN, buff=0.5)
         self.play(Write(part_a_2))
         self.wait()
@@ -596,7 +596,7 @@ class question_BC(ThreeDScene):
 
 class question_AB(Scene):
     def construct(self):
-        # self.next_section(skip_animations=True)
+        self.next_section(skip_animations=True)
         x_pi_dict = {
             -2 * PI: r"$-2\pi$",
             # -PI: r"$\hspace{1cm}$",
@@ -925,7 +925,8 @@ class question_AB(Scene):
         # Part A: Cos graph verification
 
         verify_f_integral = Tex(
-            r"$$\text{Verify } \int_{-2\pi}^{4\pi} \cos\left(\frac{x}{2}\right)dx$$", font_size=40
+            r"$$\text{Verify } \int_{-2\pi}^{4\pi} \cos\left(\frac{x}{2}\right)dx$$",
+            font_size=40,
         ).to_corner(UL)
 
         x_pi_dict_2 = {
@@ -1224,7 +1225,6 @@ class question_AB(Scene):
             FadeOut(part_b_10),
             FadeOut(part_b_11),
         )
-        self.next_section(skip_animations=False)
 
         part_b_12 = (
             Tex(r"\underline{Case 2: $f'$ is equal to 0}", font_size=30)
@@ -1233,27 +1233,66 @@ class question_AB(Scene):
         )
         self.play(Write(part_b_12))
 
-        part_b_13 = Tex(r"Check \underline{both} parts of the piecewise function!",font_size=30).to_corner(UL).shift(DOWN*3)
+        part_b_13 = (
+            Tex(
+                r"Check \underline{both} parts of the piecewise function!", font_size=30
+            )
+            .to_corner(UL)
+            .shift(DOWN * 3)
+        )
         self.play(Write(part_b_13))
-        part_b_14=Tex(r"$-2\pi<x<0:$",font_size=30, color=TEAL).to_corner(UL).shift(DOWN*3.5)
+        part_b_14 = (
+            Tex(r"$-2\pi<x<0:$", font_size=30, color=TEAL)
+            .to_corner(UL)
+            .shift(DOWN * 3.5)
+        )
         self.play(Write(part_b_14))
-        part_b_15=MathTex(r"&f'(x)=1+\frac{1}{2} \sin\left(\frac{x}{2}\right)\text{, which is never equal} \\ & \text{to zero}.",font_size=30, color=TEAL).to_corner(UL).shift(DOWN*4)
+        part_b_15 = (
+            MathTex(
+                r"&f'(x)=1+\frac{1}{2} \sin\left(\frac{x}{2}\right)\text{, which is never equal} \\ & \text{to zero}.",
+                font_size=30,
+                color=TEAL,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 4)
+        )
         self.play(Write(part_b_15))
         self.wait()
 
-        part_b_16=Tex(r"$0<x<4\pi:$",font_size=30, color=TEAL).to_corner(UL).shift(DOWN*3.2+RIGHT*7)
+        part_b_16 = (
+            Tex(r"$0<x<4\pi:$", font_size=30, color=TEAL)
+            .to_corner(UL)
+            .shift(DOWN * 3.2 + RIGHT * 7)
+        )
         self.play(Write(part_b_16))
-        part_b_17=MathTex(r"f'(x)=-\frac{1}{2}+\frac{1}{2} \sin\left(\frac{x}{2}\right)&=0 \\",
-            r"\sin\left(\frac{x}{2}\right)&=1 \\", 
-            r"\frac{x}{2} = \frac{\pi}{2} + 2\pi n, n\in \mathbb{Z} \\",
-            r"x = \pi + 4\pi n, n\in \mathbb{Z} \\",
-            color=TEAL,
-        font_size=30).to_corner(UL).shift(DOWN*3.6+RIGHT*7)
+        part_b_17 = (
+            MathTex(
+                r"f'(x)=-\frac{1}{2}+\frac{1}{2} \sin\left(\frac{x}{2}\right)&=0 \\",
+                r"\sin\left(\frac{x}{2}\right)&=1 \\",
+                r"\frac{x}{2} = \frac{\pi}{2} + 2\pi n, n\in \mathbb{Z} \\",
+                r"x = \pi + 4\pi n, n\in \mathbb{Z} \\",
+                color=TEAL,
+                font_size=30,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 3.6 + RIGHT * 7)
+        )
         self.play(Write(part_b_17[0]))
+        self.wait()
         self.play(Write(part_b_17[1]))
+        self.wait()
         self.play(Write(part_b_17[2]))
+        self.wait()
         self.play(Write(part_b_17[3]))
-        part_b_18=Tex(r"$\text{The only solution in the given interval is } x=\pi.$",color=TEAL,font_size=30).next_to(part_b_17,DOWN).shift(LEFT*2)
+        part_b_18 = (
+            Tex(
+                r"$\text{The only solution in the given interval is } x=\pi.$",
+                color=TEAL,
+                font_size=30,
+            )
+            .next_to(part_b_17, DOWN)
+            .shift(LEFT * 2)
+        )
         self.play(Write(part_b_18))
         self.wait(1.5)
 
@@ -1264,16 +1303,41 @@ class question_AB(Scene):
             FadeOut(part_b_15),
             FadeOut(part_b_16),
             FadeOut(part_b_17),
-            FadeOut(part_b_18)
+            FadeOut(part_b_18),
         )
 
-        part_b_18=Tex(r"\begin{minipage}{8cm}$f$ has a critical point at $x=0$ because $f'$ is undefined at that point and another critical point at $x=\pi$ because $f'$ is $0$.\end{minipage}",color=TEAL,font_size=30).to_corner(UL).shift(DOWN*2.8)
+        self.next_section(skip_animations=False)
+
+        part_b_18 = (
+            Tex(
+                r"\begin{minipage}{8cm}$f$ has a critical point at $x=0$ because $f'$ is undefined at that point and another critical point at $x=\pi$ because $f'$ is $0$.\end{minipage}",
+                color=TEAL,
+                font_size=30,
+            )
+            .to_corner(UL)
+            .shift(DOWN * 2.8)
+        )
         self.play(Write(part_b_18))
-        part_b_final_box=SurroundingRectangle(part_b_18, color=WHITE, buff=0.2)
+        part_b_final_box = SurroundingRectangle(part_b_18, color=WHITE, buff=0.2)
         self.play(Create(part_b_final_box))
 
         self.wait()
-            
+
+        part_c = MathTex(
+            r"\text{Let }h(x)=\int_0^{3x} g(t) dt",
+            r"\text{ Find } h'(-\frac{\pi}{3})",
+            color=WHITE,
+            font_size=36,
+        ).to_corner(UL)
+        self.play(Write(part_c[0]))
+        self.play(Write(part_c[1]))
+
+        part_c_0 = (
+            Tex(r"Let $G(x)$ be the antiderivative of $g(x)$").to_corner(UL).shift(DOWN)
+        )
+        part_c_1 = Tex(r"Thus, $h(x)=G(3x)-G(0)$").to_corner(UL).shift(DOWN * 1.5)
+        self.play(Write(part_c_0))
+        self.play(Write(part_c_1))
 
 
 if __name__ == "__main__":
