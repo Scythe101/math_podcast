@@ -6,7 +6,7 @@ from numpy._core import cos
 
 class question_BC(ThreeDScene):
     def construct(self):
-        # self.next_section(skip_animations=True)
+        self.next_section(skip_animations=True)
         eq1 = Tex("$f(x)=\\frac{1}{x+2}$", font_size=36).shift(UP * 3.3 + RIGHT * 2.55)
         question_bc = (
             VGroup(
@@ -262,7 +262,7 @@ class question_BC(ThreeDScene):
 
         part_b_2 = Tex(r"$$A=\pi\cdot\frac{1}{(x+2)^2}$$", font_size=36, color=PURPLE_A)
         part_b_3 = Tex(
-            r"$$V_R=\int_0^k A(x)dx=\pi\int_0^k \frac{1}{(x+2)^2}dx$$",
+            r"$$V_R=\int_0^k A(x)dx=\int_0^k \frac{\pi}{(x+2)^2}dx$$",
             font_size=36,
             color=PURPLE_A,
         )
@@ -288,9 +288,10 @@ class question_BC(ThreeDScene):
         )
 
         self.wait()
+        self.next_section(skip_animations=False)
 
         part_b_4 = Tex(
-            r"$$=-\pi\left[\frac{1}{x+2}\right]^k_0$$",
+            r"$$=\left[\frac{-\pi}{x+2}\right]^k_0$$",
             font_size=36,
             color=PURPLE_A,
         )
@@ -299,7 +300,7 @@ class question_BC(ThreeDScene):
         self.wait()
 
         part_b_5 = Tex(
-            r"$$=-\pi \left( \frac{1}{k+2} - \frac{1}{2} \right)$$",
+            r"$$=\frac{-\pi}{k+2} - \frac{-\pi}{2}$$",
             font_size=36,
             color=PURPLE_A,
         )
@@ -320,6 +321,7 @@ class question_BC(ThreeDScene):
         self.play(Create(part_b_box))
 
         self.wait(2)
+        self.next_section(skip_animations=True)
 
         self.play(
             FadeOut(part_b_3),
@@ -464,6 +466,7 @@ class question_BC(ThreeDScene):
         self.wait()
         part_c_2.next_to(part_c_1, DOWN, buff=0.5)
         self.play(Write(part_c_2))
+        self.next_section(skip_animations=False)
 
         part_c_3.next_to(part_c_2, DOWN, buff=0.5).shift(RIGHT)
         self.play(Write(part_c_3))
@@ -477,7 +480,7 @@ class question_BC(ThreeDScene):
         )
 
         part_c_4 = Tex(
-            r"$$=\pi \lim_{t\to \infty} \int_k^t \frac{1}{(x+2)^2}=\pi \lim_{t\to\infty}\left[ \frac{-1}{x+2} \right]_k^t$$",
+            r"$$=\lim_{t\to \infty} \int_k^t \frac{\pi}{(x+2)^2}=\lim_{t\to\infty}\left[ \frac{-\pi}{x+2} \right]_k^t$$",
             font_size=36,
             color=PURPLE_A,
         )
@@ -487,7 +490,7 @@ class question_BC(ThreeDScene):
         self.wait()
 
         part_c_5 = Tex(
-            r"$$=\pi \lim_{t\to\infty}\left[ \frac{-1}{t+2} \right]+\frac{\pi}{k+2}$$",
+            r"$$=\lim_{t\to\infty}\left[ \frac{-\pi}{t+2} \right]+\frac{\pi}{k+2}$$",
             font_size=36,
             color=PURPLE_A,
         )
@@ -501,6 +504,7 @@ class question_BC(ThreeDScene):
             font_size=36,
             color=PURPLE_A,
         )
+        self.next_section(skip_animations=True)
 
         part_c_6.next_to(part_c_5, DOWN, buff=0.5)
         self.play(Write(part_c_6))
@@ -596,7 +600,7 @@ class question_BC(ThreeDScene):
 
 class question_AB(Scene):
     def construct(self):
-        # self.next_section(skip_animations=True)
+        self.next_section(skip_animations=True)
         x_pi_dict = {
             -2 * PI: r"$-2\pi$",
             # -PI: r"$\hspace{1cm}$",
@@ -1326,7 +1330,6 @@ class question_AB(Scene):
 
         self.play(FadeOut(part_b_18), FadeOut(part_b_final_box),FadeOut(part_b),FadeOut(part_b_0),FadeOut(part_b_1))
 
-        self.next_section(skip_animations=False)
         part_c = MathTex(
             r"\text{(c) Let }h(x)=\int_0^{3x} g(t) dt",
             r"\text{ Find } h'(-\frac{\pi}{3})",
@@ -1377,9 +1380,15 @@ class question_AB(Scene):
         self.play(Write(part_c_9[0]))
         self.wait()
         dot = Dot(axes.c2p(-PI,PI), color=YELLOW)
-        label = MathTex("(-\pi, \pi)",color=YELLOW,font_size=36).next_to(dot, UP).shift(LEFT*0.6+DOWN*0.2)
+        label = MathTex(r"(-\pi, \pi)",color=YELLOW,font_size=36).next_to(dot, UP).shift(LEFT*0.6+DOWN*0.2)
         self.play(Create(dot),Write(label))
         self.play(Write(part_c_9[1]))
+        self.next_section(skip_animations=False)
+        self.wait(2)
+        part_c_10=MathTex(r"&\text{For } x \in [-2\pi, 0]:\\", r"& g(x)=L(x)=x+2\pi \\",r"& L(-\pi)=-\pi+2\pi=\pi",font_size=30,color=TEAL).shift(RIGHT*4+DOWN*0.5)
+        self.play(Write(part_c_10[0]))
+        self.play(Write(part_c_10[1]))
+        self.play(Write(part_c_10[2]))
         self.wait()
         self.play(LaggedStart(Write(part_c_9[2]),Write(part_c_9[3]),lag_ratio=0.6))
         self.wait()
@@ -1437,9 +1446,9 @@ class Credits_BC(Scene):
         script_credit_names.arrange(RIGHT, aligned_edge=DOWN)
         credit_name_2.shift(UP*0.1)
         self.play(Write(script_credit_names),Write(credit_title_1))
-        credit_func("Editing","Julian Chenard")
         self.wait(1.5)
         self.play(FadeOut(script_credit_names),FadeOut(credit_title_1))
+        credit_func("Editing","Julian Chenard")
         
         thanks_0=Text("And most importantly...",font_size=36).to_corner(UL)
         
