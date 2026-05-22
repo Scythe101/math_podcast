@@ -596,7 +596,7 @@ class question_BC(ThreeDScene):
 
 class question_AB(Scene):
     def construct(self):
-        self.next_section(skip_animations=True)
+        # self.next_section(skip_animations=True)
         x_pi_dict = {
             -2 * PI: r"$-2\pi$",
             # -PI: r"$\hspace{1cm}$",
@@ -662,6 +662,8 @@ class question_AB(Scene):
 
         graph_group1 = VGroup(graph1, graph2, axes)
         question_AB_info = VGroup(graph1, graph2, axes, function_f, graph_g_label)
+
+        self.wait(2)
 
         self.play(
             FadeOut(question_AB),
@@ -1306,7 +1308,6 @@ class question_AB(Scene):
             FadeOut(part_b_18),
         )
 
-        self.next_section(skip_animations=False)
 
         part_b_18 = (
             Tex(
@@ -1323,8 +1324,11 @@ class question_AB(Scene):
 
         self.wait()
 
+        self.play(FadeOut(part_b_18), FadeOut(part_b_final_box),FadeOut(part_b),FadeOut(part_b_0),FadeOut(part_b_1))
+
+        self.next_section(skip_animations=False)
         part_c = MathTex(
-            r"\text{Let }h(x)=\int_0^{3x} g(t) dt",
+            r"\text{(c) Let }h(x)=\int_0^{3x} g(t) dt",
             r"\text{ Find } h'(-\frac{\pi}{3})",
             color=WHITE,
             font_size=36,
@@ -1333,11 +1337,117 @@ class question_AB(Scene):
         self.play(Write(part_c[1]))
 
         part_c_0 = (
-            Tex(r"Let $G(x)$ be the antiderivative of $g(x)$").to_corner(UL).shift(DOWN)
+            Tex(r"Let $G(x)$ be the antiderivative of $g(x)$",font_size=30,color=TEAL).to_corner(UL).shift(DOWN)
         )
-        part_c_1 = Tex(r"Thus, $h(x)=G(3x)-G(0)$").to_corner(UL).shift(DOWN * 1.5)
+        part_c_1 = MathTex(r"\text{Thus, }h(x)=[G(t)]_0^{3x}",r"=G(3x)-G(0)",font_size=30,color=TEAL).to_corner(UL).shift(DOWN * 1.5)
         self.play(Write(part_c_0))
-        self.play(Write(part_c_1))
+        self.play(Write(part_c_1[0]))
+        self.wait(0.3)
+        self.play(Write(part_c_1[1]))
+
+        part_c_2=MathTex(r"h'(x)=",r"3",r"g(",r"3",r"x)",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*2)
+
+        self.play(LaggedStart(Write(part_c_2[0]),Write(part_c_2[2]),Write(part_c_2[3]), Write(part_c_2[4]),lag_ratio=0.4))
+
+        part_c_3=part_c_2[3].copy()
+        part_c_3.generate_target()
+        part_c_3.target.move_to(part_c_2[1])
+
+        # 3. Animate it over a positive arc so it flies "up and over"
+        self.play(MoveToTarget(part_c_3, path_arc=1.5))
+        self.play(Indicate(part_c_3)) 
+        self.wait()
+
+        part_c_4=Tex(r"\underline{Alternatively:}",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*2.5)
+        self.play(Write(part_c_4))
+        part_c_5=Tex(r"$$h(x)=\int_0^{3x} g(t) dt$$",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*3)
+        self.play(Write(part_c_5))
+        self.wait()
+        
+        part_c_6=MathTex(r"\text{Let }u=3x\implies h(u)=\int_0^{u} g(t) dt",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*3.7)
+        self.play(Write(part_c_6))
+        self.wait()
+
+        part_c_7=Tex(r"$$h'(u)=u'\cdot g(u)$$",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*4.3)
+        self.play(Write(part_c_7))
+        part_c_8=Tex(r"$$h'(x)=3 \cdot g(3x)$$",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*4.8)
+        self.play(Write(part_c_8))
+        
+        part_c_9=MathTex(r"h'\left(-\frac{\pi}{3}\right)=3\cdot g(-\pi)",r"=3\cdot \pi",r"=\text{ }", r"3\pi",font_size=30,color=TEAL).to_corner(UL).shift(DOWN*5.3)
+        self.play(Write(part_c_9[0]))
+        self.wait()
+        dot = Dot(axes.c2p(-PI,PI), color=YELLOW)
+        label = MathTex("(-\pi, \pi)",color=YELLOW,font_size=36).next_to(dot, UP).shift(LEFT*0.6+DOWN*0.2)
+        self.play(Create(dot),Write(label))
+        self.play(Write(part_c_9[1]))
+        self.wait()
+        self.play(LaggedStart(Write(part_c_9[2]),Write(part_c_9[3]),lag_ratio=0.6))
+        self.wait()
+        part_c_final_box=SurroundingRectangle(part_c_9[3],buff=0.1,color=WHITE)
+        self.play(Write(part_c_final_box))
+        self.wait()
+
+class Credits_AB(Scene):
+    def construct(self):
+        def credit_func(title,name):
+            credit_name=Text(name,font_size=50)
+            credit_title=Text(title,font_size=36,color=GRAY).next_to(credit_name,UP)
+            self.play(FadeIn(credit_name),Write(credit_title))
+            self.wait(1.5)
+            self.play(FadeOut(credit_title),FadeOut(credit_name))
+        credit_func("Lead Role","Dylan Shaw")
+        credit_func("Guest","Julian Chenard")
+        credit_func("Animation","Julian Chenard")
+        credit_func("Background Music","Dylan Shaw")
+        credit_name_1=Text('Dylan Shaw,',font_size=50)
+        credit_name_2=Text("Julian Chenard",font_size=24,color=GRAY).shift(UP*0.7)
+        script_credit_names=VGroup(credit_name_1,credit_name_2)
+        credit_title_1=Text("Script",font_size=36,color=GRAY).next_to(script_credit_names,UP).shift(DOWN*0.6)
+        script_credit_names.arrange(RIGHT, aligned_edge=DOWN)
+        credit_name_2.shift(UP*0.1)
+        self.play(Write(script_credit_names),Write(credit_title_1))
+        self.wait(1.5)
+        self.play(FadeOut(script_credit_names),FadeOut(credit_title_1))
+        credit_func("Editing","Julian Chenard")
+        
+        thanks_0=Text("And most importantly...",font_size=36).to_corner(UL)
+        
+        self.play(Write(thanks_0))
+        thanks_1=Text("Thank you for watching!")
+        self.play(Write(thanks_1))
+        thanks_box=SurroundingRectangle(thanks_1,buff=0.7,stroke_width=8)
+        self.play(Create(thanks_box))
+
+class Credits_BC(Scene):
+    def construct(self):
+        def credit_func(title,name):
+            credit_name=Text(name,font_size=50)
+            credit_title=Text(title,font_size=36,color=GRAY).next_to(credit_name,UP)
+            self.play(FadeIn(credit_name),Write(credit_title))
+            self.wait(1.5)
+            self.play(FadeOut(credit_title),FadeOut(credit_name))
+        credit_func("Lead Role","Julian Chenard")
+        credit_func("Guest","Dylan Shaw")
+        credit_func("Animation","Julian Chenard")
+        credit_func("Background Music","Dylan Shaw")
+        credit_name_1=Text('Dylan Shaw,',font_size=50)
+        credit_name_2=Text("Julian Chenard",font_size=24,color=GRAY).shift(UP*0.7)
+        script_credit_names=VGroup(credit_name_1,credit_name_2)
+        credit_title_1=Text("Script",font_size=36,color=GRAY).next_to(script_credit_names,UP).shift(DOWN*0.6)
+        script_credit_names.arrange(RIGHT, aligned_edge=DOWN)
+        credit_name_2.shift(UP*0.1)
+        self.play(Write(script_credit_names),Write(credit_title_1))
+        credit_func("Editing","Julian Chenard")
+        self.wait(1.5)
+        self.play(FadeOut(script_credit_names),FadeOut(credit_title_1))
+        
+        thanks_0=Text("And most importantly...",font_size=36).to_corner(UL)
+        
+        self.play(Write(thanks_0))
+        thanks_1=Text("Thank you for watching!")
+        self.play(Write(thanks_1))
+        thanks_box=SurroundingRectangle(thanks_1,buff=0.7,stroke_width=8)
+        self.play(Create(thanks_box))
 
 
 if __name__ == "__main__":
